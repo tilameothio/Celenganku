@@ -1,0 +1,11 @@
+{
+  "appId": "com.pribadi.celengankuff",
+  "appName": "Celenganku FF",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "ios": {
+    "contentInset": "always",
+    "scrollEnabled": true,
+    "backgroundColor": "#F2F2F7"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "celenganku-devide-ff",
+  "version": "1.0.0",
+  "description": "Aplikasi Tabungan Pribadi & Portofolio Devide FF IDX untuk iOS",
+  "private": true,
+  "scripts": {
+    "cap:sync": "npx cap sync ios",
+    "cap:open": "npx cap open ios"
+  },
+  "dependencies": {
+    "@capacitor/core": "^6.1.2",
+    "@capacitor/ios": "^6.1.2",
+    "@capacitor/preferences": "^6.0.2"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^6.1.2"
+  }
+}
