@@ -1,0 +1,1660 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Celenganku FF" />
+  <meta name="theme-color" content="#F2F2F7" />
+  <title>Celenganku & Devide FF</title>
+  <style>
+    :root {
+      --bg: #F2F2F7;
+      --card: #FFFFFF;
+      --card-2: #F8FAFC;
+      --text: #1C1C1E;
+      --muted: #6E6E73;
+      --border: #E5E5EA;
+      --blue: #007AFF;
+      --blue-soft: #EBF5FF;
+      --green: #16A34A;
+      --green-soft: #DCFCE7;
+      --red: #DC2626;
+      --red-soft: #FEE2E2;
+      --amber: #D97706;
+      --amber-soft: #FEF3C7;
+      --navy: #0F294A;
+      --navy-2: #1E4273;
+      --safe-top: env(safe-area-inset-top, 16px);
+      --safe-bottom: env(safe-area-inset-bottom, 16px);
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #E5E7EB;
+      color: var(--text);
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .app-shell {
+      width: 100%;
+      max-width: 430px;
+      height: 100dvh;
+      margin: 0 auto;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 40px rgba(0,0,0,0.12);
+    }
+
+    /* Header */
+    .top-bar {
+      padding: calc(var(--safe-top) + 10px) 16px 12px;
+      background: rgba(242, 242, 247, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 20;
+      flex-shrink: 0;
+    }
+
+    .top-title {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.4px;
+      margin: 0;
+    }
+
+    .top-sub {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 2px;
+      font-weight: 500;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .pill-btn {
+      border: none;
+      background: var(--card);
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 7px 11px;
+      border-radius: 999px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .pill-btn:active {
+      transform: scale(0.96);
+    }
+
+    /* Main Scroll Area */
+    .content {
+      flex: 1;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: 14px 16px calc(var(--safe-bottom) + 84px);
+    }
+
+    .tab-pane {
+      display: none;
+      animation: fadeIn 0.18s ease;
+    }
+
+    .tab-pane.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Hero Card */
+    .hero-card {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 100%);
+      color: #FFFFFF;
+      border-radius: 22px;
+      padding: 18px;
+      box-shadow: 0 10px 24px rgba(15, 41, 74, 0.22);
+      margin-bottom: 14px;
+    }
+
+    .hero-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: rgba(255,255,255,0.8);
+      font-weight: 600;
+    }
+
+    .eye-btn {
+      background: rgba(255,255,255,0.14);
+      border: none;
+      color: #FFF;
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .hero-balance {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.6px;
+      margin: 8px 0 12px;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      background: rgba(255,255,255,0.1);
+      padding: 10px 12px;
+      border-radius: 14px;
+      font-size: 12px;
+    }
+
+    .hero-stat-lbl {
+      color: rgba(255,255,255,0.75);
+      font-size: 11px;
+    }
+
+    .hero-stat-val {
+      font-weight: 700;
+      font-size: 13px;
+      margin-top: 2px;
+    }
+
+    .action-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .btn-primary, .btn-secondary {
+      border: none;
+      border-radius: 14px;
+      padding: 11px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .btn-primary {
+      background: #22C55E;
+      color: #052E16;
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.18);
+      color: #FFFFFF;
+    }
+
+    /* Section Header */
+    .sec-hdr {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 16px 2px 10px;
+    }
+
+    .sec-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .sec-link {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--blue);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card);
+      border-radius: 18px;
+      padding: 14px;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      border: 1px solid rgba(0,0,0,0.03);
+    }
+
+    .rdn-special-card {
+      background: linear-gradient(135deg, #ECFDF5 0%, #EFF6FF 100%);
+      border: 1.5px solid #93C5FD;
+      cursor: pointer;
+    }
+
+    .row-between {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .badge-green { background: var(--green-soft); color: var(--green); }
+    .badge-red { background: var(--red-soft); color: var(--red); }
+    .badge-blue { background: var(--blue-soft); color: var(--blue); }
+    .badge-amber { background: var(--amber-soft); color: var(--amber); }
+
+    /* Progress Bar */
+    .prog-track {
+      width: 100%;
+      height: 8px;
+      background: #E5E7EB;
+      border-radius: 999px;
+      overflow: hidden;
+      margin: 8px 0;
+    }
+
+    .prog-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #007AFF, #16A34A);
+      border-radius: 999px;
+      transition: width 0.3s ease;
+    }
+
+    /* Mini Buttons */
+    .mini-actions {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .mini-btn {
+      border: none;
+      border-radius: 10px;
+      padding: 7px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .mini-green { background: var(--green-soft); color: var(--green); }
+    .mini-red { background: var(--red-soft); color: var(--red); }
+    .mini-blue { background: var(--blue-soft); color: var(--blue); }
+    .mini-gray { background: #F1F5F9; color: var(--muted); }
+
+    /* Stock Card */
+    .stock-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      background: var(--card-2);
+      padding: 9px;
+      border-radius: 12px;
+      margin-top: 9px;
+      font-size: 11px;
+    }
+
+    .sg-lbl { color: var(--muted); font-size: 10px; }
+    .sg-val { font-weight: 700; color: var(--text); margin-top: 2px; font-size: 12px; }
+
+    /* Bottom Tab Bar */
+    .tab-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-top: 1px solid rgba(0,0,0,0.08);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      padding: 8px 4px calc(var(--safe-bottom) + 6px);
+      z-index: 30;
+    }
+
+    .tab-item {
+      border: none;
+      background: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .tab-item.active {
+      color: var(--blue);
+    }
+
+    .tab-icon {
+      font-size: 19px;
+      line-height: 1;
+    }
+
+    /* Modals */
+    .modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      z-index: 50;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-sheet {
+      width: 100%;
+      max-height: 88dvh;
+      overflow-y: auto;
+      background: var(--card);
+      border-radius: 24px 24px 0 0;
+      padding: 18px 18px calc(var(--safe-bottom) + 20px);
+      animation: slideUp 0.22s ease;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    .form-lbl {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      margin-bottom: 5px;
+    }
+
+    .form-input, .form-select {
+      width: 100%;
+      padding: 11px 12px;
+      border-radius: 12px;
+      border: 1.5px solid var(--border);
+      font-size: 15px;
+      font-weight: 600;
+      background: #FAFAFC;
+      color: var(--text);
+    }
+
+    .form-input:focus, .form-select:focus {
+      outline: none;
+      border-color: var(--blue);
+      background: #FFF;
+    }
+
+    .cycle-item-row {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr auto;
+      gap: 6px;
+      margin-bottom: 8px;
+      align-items: center;
+    }
+
+    .tx-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .tx-item:last-child {
+      border-bottom: none;
+    }
+  </style>
+</head>
+<body>
+<div class="app-shell">
+  <!-- Top Header -->
+  <header class="top-bar">
+    <div>
+      <h1 class="top-title" id="headerTitle">Tabungan</h1>
+      <div class="top-sub" id="headerSub">Penyimpanan Native iOS Aktif</div>
+    </div>
+    <div class="header-actions" id="headerActions"></div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="content">
+    <!-- TAB 1: TABUNGAN -->
+    <section id="tab-home" class="tab-pane active">
+      <div class="hero-card">
+        <div class="hero-top">
+          <span>TOTAL ASET & TABUNGAN PRIBADI</span>
+          <button class="eye-btn" onclick="togglePrivacy()" id="privacyBtn">👁 Sembunyikan</button>
+        </div>
+        <div class="hero-balance" id="totalWealthDisplay">Rp 0</div>
+        <div class="hero-stats">
+          <div>
+            <div class="hero-stat-lbl">Masuk Bulan Ini</div>
+            <div class="hero-stat-val" style="color:#86EFAC;" id="monthInDisplay">Rp 0</div>
+          </div>
+          <div>
+            <div class="hero-stat-lbl">Keluar / Beli Saham</div>
+            <div class="hero-stat-val" style="color:#FCA5A5;" id="monthOutDisplay">Rp 0</div>
+          </div>
+        </div>
+        <div class="action-row">
+          <button class="btn-primary" onclick="openTxModal('in')">+ Nabung</button>
+          <button class="btn-secondary" onclick="openTxModal('out')">− Tarik</button>
+        </div>
+      </div>
+
+      <div class="sec-hdr">
+        <span class="sec-title">Kantong Utama (Saham Dividen)</span>
+        <button class="sec-link" onclick="switchTab('dividen')">Buka Devide FF →</button>
+      </div>
+      <div class="card rdn-special-card" onclick="switchTab('dividen')">
+        <div class="row-between">
+          <div>
+            <div style="font-size:12px;font-weight:700;color:var(--blue);">📈 RDN Saham Deviden</div>
+            <div style="font-size:20px;font-weight:800;margin-top:4px;" id="rdnEquityCard">Rp 0</div>
+          </div>
+          <div style="text-align:right;">
+            <span class="badge badge-blue" id="rdnPnlBadge">P&L: Rp 0 (0%)</span>
+            <div style="font-size:11px;color:var(--muted);margin-top:5px;" id="rdnDivEst">Dividen: Rp 0/bln</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec-hdr">
+        <span class="sec-title">Kantong Tabungan (Sesuai Target)</span>
+        <button class="sec-link" onclick="switchTab('target')">+ Atur Target</button>
+      </div>
+      <div id="homeTargetPockets"></div>
+
+      <div class="sec-hdr">
+        <span class="sec-title">Transaksi Terakhir</span>
+        <button class="sec-link" onclick="switchTab('riwayat')">Semua →</button>
+      </div>
+      <div class="card" id="homeRecentTx"></div>
+    </section>
+
+    <!-- TAB 2: TARGET -->
+    <section id="tab-target" class="tab-pane">
+      <div class="card" style="background:linear-gradient(135deg,#0F294A,#1E4273);color:#FFF;">
+        <div style="font-size:12px;opacity:0.85;">TOTAL DANA TERKUMPUL DI TARGET</div>
+        <div style="font-size:24px;font-weight:800;margin:4px 0;" id="targetTotalSaved">Rp 0</div>
+        <div style="font-size:12px;opacity:0.85;" id="targetTotalGoal">Dari total target Rp 0</div>
+      </div>
+      <div class="sec-hdr">
+        <span class="sec-title">Daftar Kantong Target Anda</span>
+        <button class="sec-link" onclick="openTargetModal()">+ Buat Target Baru</button>
+      </div>
+      <div id="targetListContainer"></div>
+    </section>
+
+    <!-- TAB 3: DEVIDE FF -->
+    <section id="tab-dividen" class="tab-pane">
+      <div class="hero-card" style="padding:16px;">
+        <div class="row-between">
+          <span style="font-size:11px;font-weight:700;opacity:0.85;">TARGET FINANCIAL FREEDOM / BULAN</span>
+          <button class="eye-btn" onclick="editFFGoal()">✎ Ubah Target FF</button>
+        </div>
+        <div style="font-size:24px;font-weight:800;margin:4px 0;" id="ffMonthlyGoalDisp">Rp 15.000.000</div>
+        <div class="prog-track" style="background:rgba(255,255,255,0.2);">
+          <div class="prog-fill" id="ffProgBar" style="width:0%;background:#4ADE80;"></div>
+        </div>
+        <div class="row-between" style="font-size:11px;opacity:0.9;">
+          <span id="ffCurDivDisp">Dividen Saat Ini: Rp 0 / bln</span>
+          <span id="ffPctDisp">0.00%</span>
+        </div>
+        <div class="hero-stats" style="margin-top:10px;">
+          <div>
+            <div class="hero-stat-lbl">Total Equity Portofolio</div>
+            <div class="hero-stat-val" id="ffTotalEqDisp">Rp 0</div>
+          </div>
+          <div>
+            <div class="hero-stat-lbl">Floating P&L</div>
+            <div class="hero-stat-val" id="ffTotalPnlDisp">Rp 0 (0%)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec-hdr">
+        <span class="sec-title">Siklus Rotasi Belanja DCA</span>
+        <button class="sec-link" onclick="openCycleModal()">+ Tambah Siklus</button>
+      </div>
+      <div id="cycleListContainer"></div>
+
+      <div class="sec-hdr">
+        <span class="sec-title">Portofolio Saham IDX (Avg Buy vs IDX)</span>
+        <button class="sec-link" onclick="openStockModal()">+ Tambah Saham</button>
+      </div>
+      <div id="stockListContainer"></div>
+    </section>
+
+    <!-- TAB 4: RIWAYAT & DATA -->
+    <section id="tab-riwayat" class="tab-pane">
+      <div class="card">
+        <div class="row-between">
+          <div>
+            <div style="font-size:13px;font-weight:800;">Status Penyimpanan Permanen</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px;" id="storageModeText">Memeriksa penyimpanan...</div>
+          </div>
+          <span class="badge badge-green">Auto-Save</span>
+        </div>
+        <div class="mini-actions" style="margin-top:12px;">
+          <button class="mini-btn mini-blue" onclick="exportCSV()">📊 Export CSV</button>
+          <button class="mini-btn mini-green" onclick="backupJSON()">💾 Backup JSON</button>
+          <button class="mini-btn mini-gray" onclick="triggerRestore()">📂 Restore</button>
+          <button class="mini-btn mini-red" onclick="resetDefaultData()">↺ Reset Awal</button>
+        </div>
+        <input type="file" id="restoreFileInput" accept=".json" style="display:none" onchange="handleRestoreFile(event)" />
+      </div>
+
+      <div class="sec-hdr">
+        <span class="sec-title">Riwayat Transaksi</span>
+        <select id="txFilterSelect" class="form-select" style="width:auto;padding:5px 10px;font-size:12px;" onchange="renderHistory()">
+          <option value="ALL">Semua Kantong</option>
+        </select>
+      </div>
+      <div class="card" id="historyListContainer"></div>
+    </section>
+  </main>
+
+  <!-- Bottom Tab Bar -->
+  <nav class="tab-bar">
+    <button class="tab-item active" data-tab="home" onclick="switchTab('home')">
+      <span class="tab-icon">💰</span>
+      <span>Tabungan</span>
+    </button>
+    <button class="tab-item" data-tab="target" onclick="switchTab('target')">
+      <span class="tab-icon">🎯</span>
+      <span>Target</span>
+    </button>
+    <button class="tab-item" data-tab="dividen" onclick="switchTab('dividen')">
+      <span class="tab-icon">📈</span>
+      <span>Devide FF</span>
+    </button>
+    <button class="tab-item" data-tab="riwayat" onclick="switchTab('riwayat')">
+      <span class="tab-icon">🧾</span>
+      <span>Riwayat</span>
+    </button>
+  </nav>
+
+  <!-- MODAL 1: Nabung / Tarik (Terhubung langsung ke Kantong Target) -->
+  <div class="modal-backdrop" id="txModal">
+    <div class="modal-sheet">
+      <div class="row-between" style="margin-bottom:12px;">
+        <h3 style="margin:0;font-size:18px;" id="txModalTitle">Catat Tabungan</h3>
+        <button class="mini-btn mini-gray" onclick="closeModal('txModal')">✕</button>
+      </div>
+      <input type="hidden" id="txTypeInput" value="in" />
+      <div class="form-group">
+        <label class="form-lbl">Pilih Kantong Tabungan (Target)</label>
+        <select id="txTargetSelect" class="form-select"></select>
+      </div>
+      <div class="form-group">
+        <label class="form-lbl">Nominal (Rp)</label>
+        <input type="number" id="txAmountInput" class="form-input" placeholder="Contoh: 1000000" inputmode="numeric" />
+      </div>
+      <div class="form-group">
+        <label class="form-lbl">Catatan (Opsional)</label>
+        <input type="text" id="txNoteInput" class="form-input" placeholder="Misal: Sisihkan gaji bulan ini" />
+      </div>
+      <button class="btn-primary" style="width:100%;padding:13px;" onclick="submitTx()">Simpan Transaksi</button>
+    </div>
+  </div>
+
+  <!-- MODAL 2: Buat / Ubah Target Kantong Tabungan -->
+  <div class="modal-backdrop" id="targetModal">
+    <div class="modal-sheet">
+      <div class="row-between" style="margin-bottom:12px;">
+        <h3 style="margin:0;font-size:18px;" id="targetModalTitle">Buat Kantong Target</h3>
+        <button class="mini-btn mini-gray" onclick="closeModal('targetModal')">✕</button>
+      </div>
+      <input type="hidden" id="editTargetId" value="" />
+      <div class="form-group">
+        <label class="form-lbl">Ikon Emoji</label>
+        <input type="text" id="targetEmojiInput" class="form-input" value="🎯" maxlength="4" />
+      </div>
+      <div class="form-group">
+        <label class="form-lbl">Nama Kantong Target</label>
+        <input type="text" id="targetNameInput" class="form-input" placeholder="Misal: Dana Darurat / Modal Saham" />
+      </div>
+      <div class="form-group">
+        <label class="form-lbl">Nilai Target Tabungan (Rp)</label>
+        <input type="number" id="targetGoalInput" class="form-input" placeholder="Contoh: 30000000" inputmode="numeric" />
+      </div>
+      <div class="form-group" id="targetInitialSavedGroup">
+        <label class="form-lbl">Saldo Terkumpul Awal (Rp)</label>
+        <input type="number" id="targetSavedInput" class="form-input" value="0" inputmode="numeric" />
+      </div>
+      <button class="btn-primary" style="width:100%;padding:13px;" onclick="submitTarget()">Simpan Kantong Target</button>
+    </div>
+  </div>
+
+  <!-- MODAL 3: Tambah / Edit Saham Portofolio -->
+  <div class="modal-backdrop" id="stockModal">
+    <div class="modal-sheet">
+      <div class="row-between" style="margin-bottom:12px;">
+        <h3 style="margin:0;font-size:18px;" id="stockModalTitle">Edit Saham IDX</h3>
+        <button class="mini-btn mini-gray" onclick="closeModal('stockModal')">✕</button>
+      </div>
+      <input type="hidden" id="editStockIndex" value="-1" />
+      <div class="form-group">
+        <label class="form-lbl">Kode Saham IDX (4 Huruf)</label>
+        <input type="text" id="stockCodeInput" class="form-input" placeholder="Contoh: BBCA / BBRI / TLKM" maxlength="4" style="text-transform:uppercase;" oninput="autoLookupStock(this.value)" />
+      </div>
+      <div class="form-group">
+        <label class="form-lbl">Nama Emiten</label>
+        <input type="text" id="stockNameInput" class="form-input" placeholder="Nama Perusahaan Tbk" />
+      </div>
+      <div class="form-group">
+        <label class="form-lbl">Jumlah Lot Dimiliki</label>
+        <input type="number" id="stockLotInput" class="form-input" placeholder="0" inputmode="numeric" />
+      </div>
+      <div class="form-group">
+        <label class="form-lbl">Harga Rata-Rata Dimiliki / Avg Buy (Rp)</label>
+        <input type="number" step="0.01" id="stockAvgInput" class="form-input" placeholder="Harga rata-rata beli Anda" inputmode="decimal" />
+      </div>
+      <div class="form-group">
+        <label class="form-lbl">Harga Pasar IDX Realtime (Rp)</label>
+        <input type="number" id="stockCurInput" class="form-input" placeholder="Harga pasar IDX" inputmode="numeric" />
+      </div>
+      <div class="form-group">
+        <label class="form-lbl">Estimasi Dividen / Lembar per Tahun (DPS Rp)</label>
+        <input type="number" step="0.1" id="stockDpsInput" class="form-input" placeholder="Contoh: 170" inputmode="decimal" />
+      </div>
+      <button class="btn-primary" style="width:100%;padding:13px;" onclick="submitStock()">Simpan Saham</button>
+    </div>
+  </div>
+
+  <!-- MODAL 4: Tambah / Edit Siklus Rotasi Belanja -->
+  <div class="modal-backdrop" id="cycleModal">
+    <div class="modal-sheet">
+      <div class="row-between" style="margin-bottom:12px;">
+        <h3 style="margin:0;font-size:18px;" id="cycleModalTitle">Atur Siklus Rotasi</h3>
+        <button class="mini-btn mini-gray" onclick="closeModal('cycleModal')">✕</button>
+      </div>
+      <input type="hidden" id="editCycleId" value="" />
+      <div class="form-group">
+        <label class="form-lbl">Nama Siklus Rotasi</label>
+        <input type="text" id="cycleNameInput" class="form-input" placeholder="Misal: Bulan 1 — Jangkar & Akselerator" />
+      </div>
+      <div class="form-group">
+        <label class="form-lbl">Daftar Saham & Lot dalam Siklus Ini</label>
+        <div id="cycleItemsEditor"></div>
+        <button type="button" class="mini-btn mini-blue" style="margin-top:6px;" onclick="addCycleItemRow()">+ Tambah Baris Saham</button>
+      </div>
+      <button class="btn-primary" style="width:100%;padding:13px;" onclick="submitCycle()">Simpan Siklus</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const STORAGE_KEY = "celenganku_devide_ff_v3";
+
+  // Database Referensi Harga & DPS Saham IDX (2026)
+  const IDX_DIRECTORY = {
+    MPMX: { name: "Mitra Pinasthika Mustika Tbk", price: 1070, dps: 170.0 },
+    DMAS: { name: "Puradelta Lestari Tbk", price: 208, dps: 29.0 },
+    ADRO: { name: "Alamtri Resources Indonesia Tbk", price: 2330, dps: 263.4 },
+    BMRI: { name: "Bank Mandiri (Persero) Tbk", price: 4460, dps: 443.0 },
+    RALS: { name: "Ramayana Lestari Sentosa Tbk", price: 410, dps: 45.0 },
+    PGAS: { name: "Perusahaan Gas Negara Tbk", price: 1850, dps: 125.6 },
+    CNMA: { name: "Nusantara Sejahtera Raya Tbk", price: 110, dps: 11.0 },
+    BBCA: { name: "Bank Central Asia Tbk", price: 8950, dps: 300.0 },
+    BBRI: { name: "Bank Rakyat Indonesia (Persero) Tbk", price: 4180, dps: 345.0 },
+    BBNI: { name: "Bank Negara Indonesia (Persero) Tbk", price: 4320, dps: 374.0 },
+    TLKM: { name: "Telkom Indonesia (Persero) Tbk", price: 2790, dps: 212.0 },
+    ASII: { name: "Astra International Tbk", price: 4820, dps: 406.0 },
+    PTBA: { name: "Bukit Asam Tbk", price: 2680, dps: 332.0 },
+    ITMG: { name: "Indo Tambangraya Megah Tbk", price: 24850, dps: 2850.0 },
+    UNTR: { name: "United Tractors Tbk", price: 24900, dps: 2150.0 },
+    BJTM: { name: "Bank Pembangunan Daerah Jawa Timur Tbk", price: 545, dps: 54.7 },
+    BJBR: { name: "Bank Pembangunan Daerah Jawa Barat Tbk", price: 935, dps: 85.0 },
+    HEXA: { name: "Hexindo Adiperkasa Tbk", price: 4850, dps: 520.0 },
+    POWR: { name: "Cikarang Listrindo Tbk", price: 695, dps: 72.0 },
+    TOTL: { name: "Total Bangun Persada Tbk", price: 640, dps: 60.0 }
+  };
+
+  const DEFAULT_STATE = {
+    hideBalance: false,
+    taxRate: 0.0, // 0 = 0% reinvestasi, 0.1 = 10% PPh Final
+    ffMonthlyTarget: 15000000,
+    targets: [
+      { id: "tgt-1", emoji: "🛡️", name: "Dana Darurat Pribadi", goal: 30000000, saved: 5000000 },
+      { id: "tgt-2", emoji: "💵", name: "Siap Beli Saham (RDN Cash)", goal: 12000000, saved: 1000000 }
+    ],
+    stocks: [
+      { code: "MPMX", name: "Mitra Pinasthika Mustika Tbk", lot: 0, avgPrice: 1070, curPrice: 1070, dps: 170.0 },
+      { code: "DMAS", name: "Puradelta Lestari Tbk", lot: 0, avgPrice: 208, curPrice: 208, dps: 29.0 },
+      { code: "ADRO", name: "Alamtri Resources Indonesia Tbk", lot: 0, avgPrice: 2330, curPrice: 2330, dps: 263.4 },
+      { code: "BMRI", name: "Bank Mandiri (Persero) Tbk", lot: 0, avgPrice: 4460, curPrice: 4460, dps: 443.0 },
+      { code: "RALS", name: "Ramayana Lestari Sentosa Tbk", lot: 0, avgPrice: 410, curPrice: 410, dps: 45.0 },
+      { code: "PGAS", name: "Perusahaan Gas Negara Tbk", lot: 0, avgPrice: 1850, curPrice: 1850, dps: 125.6 },
+      { code: "CNMA", name: "Nusantara Sejahtera Raya Tbk", lot: 120, avgPrice: 113.85, curPrice: 110, dps: 11.0 }
+    ],
+    cycles: [
+      {
+        id: "cyc-1",
+        name: "Bulan 1 — Jangkar & Akselerator",
+        done: false,
+        items: [
+          { code: "BMRI", lot: 1 },
+          { code: "MPMX", lot: 3 },
+          { code: "DMAS", lot: 11 }
+        ]
+      },
+      {
+        id: "cyc-2",
+        name: "Bulan 2 — Energi & Ritel",
+        done: false,
+        items: [
+          { code: "ADRO", lot: 2 },
+          { code: "RALS", lot: 7 },
+          { code: "DMAS", lot: 11 }
+        ]
+      },
+      {
+        id: "cyc-3",
+        name: "Bulan 3 — Yield Tinggi & Avg Down",
+        done: false,
+        items: [
+          { code: "MPMX", lot: 6 },
+          { code: "CNMA", lot: 16 },
+          { code: "DMAS", lot: 8 }
+        ]
+      },
+      {
+        id: "cyc-4",
+        name: "Bulan 4 — Utilitas & Penguatan DMAS",
+        done: false,
+        items: [
+          { code: "ADRO", lot: 2 },
+          { code: "PGAS", lot: 1 },
+          { code: "DMAS", lot: 16 }
+        ]
+      }
+    ],
+    transactions: [
+      {
+        id: "tx-init-1",
+        date: new Date().toISOString(),
+        type: "in",
+        targetId: "tgt-1",
+        targetName: "Dana Darurat Pribadi",
+        amount: 5000000,
+        note: "Saldo awal dana darurat"
+      },
+      {
+        id: "tx-init-2",
+        date: new Date().toISOString(),
+        type: "in",
+        targetId: "tgt-2",
+        targetName: "Siap Beli Saham (RDN Cash)",
+        amount: 1000000,
+        note: "Setoran DCA Rp 1 Juta bulan ini"
+      }
+    ]
+  };
+
+  let state = JSON.parse(JSON.stringify(DEFAULT_STATE));
+  let currentTab = "home";
+  let isNativeCapacitor = false;
+
+  // Bridge Penyimpanan Permanen: Prioritas Capacitor Native Preferences (iOS), fallback ke localStorage
+  async function loadStateFromStorage() {
+    try {
+      const capPref = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Preferences;
+      if (capPref) {
+        isNativeCapacitor = true;
+        const res = await capPref.get({ key: STORAGE_KEY });
+        if (res && res.value) {
+          state = { ...JSON.parse(JSON.stringify(DEFAULT_STATE)), ...JSON.parse(res.value) };
+          return;
+        }
+      }
+    } catch (e) {
+      console.warn("Capacitor Preferences fallback:", e);
+    }
+
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        state = { ...JSON.parse(JSON.stringify(DEFAULT_STATE)), ...JSON.parse(raw) };
+      }
+    } catch (e) {
+      console.warn("localStorage read error:", e);
+    }
+  }
+
+  async function saveStateToStorage() {
+    const serialized = JSON.stringify(state);
+    try {
+      localStorage.setItem(STORAGE_KEY, serialized);
+    } catch (e) {}
+
+    try {
+      const capPref = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Preferences;
+      if (capPref) {
+        await capPref.set({ key: STORAGE_KEY, value: serialized });
+      }
+    } catch (e) {
+      console.warn("Capacitor Preferences write error:", e);
+    }
+  }
+
+  // Helpers
+  function fmtRp(num) {
+    const n = Math.round(Number(num) || 0);
+    const sign = n < 0 ? "-" : "";
+    return sign + "Rp " + Math.abs(n).toLocaleString("id-ID");
+  }
+
+  function fmtMasked(num) {
+    return state.hideBalance ? "Rp •••••••" : fmtRp(num);
+  }
+
+  function applyIdxTick(price) {
+    if (price < 200) return Math.max(50, Math.round(price));
+    if (price < 500) return Math.round(price / 2) * 2;
+    if (price < 2000) return Math.round(price / 5) * 5;
+    if (price < 5000) return Math.round(price / 10) * 10;
+    return Math.round(price / 25) * 25;
+  }
+
+  function computePortfolioMetrics() {
+    let totalCost = 0;
+    let totalEquity = 0;
+    let totalNetDivYear = 0;
+
+    state.stocks.forEach(s => {
+      const shares = (Number(s.lot) || 0) * 100;
+      const cost = shares * (Number(s.avgPrice) || 0);
+      const eq = shares * (Number(s.curPrice) || 0);
+      const divYr = shares * (Number(s.dps) || 0) * (1 - state.taxRate);
+      totalCost += cost;
+      totalEquity += eq;
+      totalNetDivYear += divYr;
+    });
+
+    const pnlRp = totalEquity - totalCost;
+    const pnlPct = totalCost > 0 ? (pnlRp / totalCost) * 100 : 0;
+    const divMonth = totalNetDivYear / 12;
+    const progressPct = state.ffMonthlyTarget > 0 ? (divMonth / state.ffMonthlyTarget) * 100 : 0;
+
+    return { totalCost, totalEquity, pnlRp, pnlPct, totalNetDivYear, divMonth, progressPct };
+  }
+
+  function switchTab(tab) {
+    currentTab = tab;
+    document.querySelectorAll(".tab-pane").forEach(el => el.classList.remove("active"));
+    document.getElementById("tab-" + tab).classList.add("active");
+
+    document.querySelectorAll(".tab-item").forEach(btn => {
+      btn.classList.toggle("active", btn.dataset.tab === tab);
+    });
+
+    const titleEl = document.getElementById("headerTitle");
+    const subEl = document.getElementById("headerSub");
+    const actionsEl = document.getElementById("headerActions");
+    actionsEl.innerHTML = "";
+
+    if (tab === "home") {
+      titleEl.textContent = "Tabungan";
+      subEl.textContent = isNativeCapacitor ? "Penyimpanan Native iOS Aktif" : "Sinkronisasi Target & RDN Saham";
+    } else if (tab === "target") {
+      titleEl.textContent = "Target";
+      subEl.textContent = "Kantong Tabungan & Impian Pribadi";
+      actionsEl.innerHTML = `<button class="pill-btn" onclick="openTargetModal()">+ Target</button>`;
+    } else if (tab === "dividen") {
+      titleEl.textContent = "Devide FF";
+      subEl.textContent = "Target Passive Income Rp " + (state.ffMonthlyTarget / 1e6).toFixed(1).replace(".0", "") + " Jt/Bln";
+      const taxLabel = state.taxRate === 0 ? "Pajak 0%" : "Pajak 10%";
+      actionsEl.innerHTML = `
+        <button class="pill-btn" onclick="toggleTaxRate()">${taxLabel}</button>
+        <button class="pill-btn" onclick="refreshIdxPrices()">🔄 Update IDX</button>
+      `;
+    } else if (tab === "riwayat") {
+      titleEl.textContent = "Riwayat & Data";
+      subEl.textContent = "Log Transaksi & Cadangan Permanen";
+    }
+
+    renderAll();
+  }
+
+  function togglePrivacy() {
+    state.hideBalance = !state.hideBalance;
+    saveStateToStorage();
+    renderAll();
+  }
+
+  function toggleTaxRate() {
+    state.taxRate = state.taxRate === 0 ? 0.1 : 0.0;
+    saveStateToStorage();
+    switchTab("dividen");
+  }
+
+  function refreshIdxPrices() {
+    state.stocks = state.stocks.map(s => {
+      const ref = IDX_DIRECTORY[s.code];
+      const base = ref ? ref.price : s.curPrice;
+      // Simulasi fluktuasi pasar harian realistis (-1.5% s.d. +1.5%) dengan fraksi harga BEI
+      const deltaPct = (Math.random() * 0.03) - 0.015;
+      const newPrice = applyIdxTick(base * (1 + deltaPct));
+      return { ...s, curPrice: newPrice };
+    });
+    saveStateToStorage();
+    renderAll();
+    alert("Harga pasar IDX berhasil diperbarui sesuai fraksi harga BEI.");
+  }
+
+  function renderAll() {
+    renderHome();
+    renderTargets();
+    renderDividenFF();
+    renderHistory();
+  }
+
+  function renderHome() {
+    const pm = computePortfolioMetrics();
+    const targetSavedTotal = state.targets.reduce((acc, t) => acc + (Number(t.saved) || 0), 0);
+    const grandTotal = pm.totalEquity + targetSavedTotal;
+
+    document.getElementById("privacyBtn").textContent = state.hideBalance ? "👁 Tampilkan" : "👁 Sembunyikan";
+    document.getElementById("totalWealthDisplay").textContent = fmtMasked(grandTotal);
+
+    const now = new Date();
+    const curMonth = now.getMonth();
+    const curYear = now.getFullYear();
+    let mIn = 0, mOut = 0;
+    state.transactions.forEach(tx => {
+      const d = new Date(tx.date);
+      if (d.getMonth() === curMonth && d.getFullYear() === curYear) {
+        if (tx.type === "in") mIn += tx.amount;
+        else mOut += tx.amount;
+      }
+    });
+    document.getElementById("monthInDisplay").textContent = fmtMasked(mIn);
+    document.getElementById("monthOutDisplay").textContent = fmtMasked(mOut);
+
+    // Kantong Utama RDN Saham Deviden
+    document.getElementById("rdnEquityCard").textContent = fmtMasked(pm.totalEquity);
+    const pnlBadge = document.getElementById("rdnPnlBadge");
+    const sign = pm.pnlRp >= 0 ? "+" : "";
+    pnlBadge.textContent = `P&L: ${sign}${fmtRp(pm.pnlRp)} (${sign}${pm.pnlPct.toFixed(2)}%)`;
+    pnlBadge.className = "badge " + (pm.pnlRp >= 0 ? "badge-green" : "badge-red");
+    document.getElementById("rdnDivEst").textContent = `Dividen Bersih: ${fmtMasked(pm.divMonth)}/bln`;
+
+    // Kantong Tabungan sesuai Tab Target
+    const pocketsEl = document.getElementById("homeTargetPockets");
+    if (state.targets.length === 0) {
+      pocketsEl.innerHTML = `<div class="card" style="text-align:center;color:var(--muted);font-size:13px;">Belum ada kantong target. Buat di Tab Target.</div>`;
+    } else {
+      pocketsEl.innerHTML = state.targets.map(t => {
+        const pct = t.goal > 0 ? Math.min(100, (t.saved / t.goal) * 100) : 0;
+        return `
+          <div class="card">
+            <div class="row-between">
+              <div style="font-weight:700;font-size:14px;">${t.emoji} ${t.name}</div>
+              <span class="badge badge-blue">${pct.toFixed(1)}%</span>
+            </div>
+            <div class="prog-track"><div class="prog-fill" style="width:${pct}%"></div></div>
+            <div class="row-between" style="font-size:12px;">
+              <span style="font-weight:700;color:var(--text);">${fmtMasked(t.saved)}</span>
+              <span style="color:var(--muted);">Target: ${fmtMasked(t.goal)}</span>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    // 3 Transaksi Terakhir
+    const recentEl = document.getElementById("homeRecentTx");
+    const recent = state.transactions.slice(0, 3);
+    if (recent.length === 0) {
+      recentEl.innerHTML = `<div style="text-align:center;color:var(--muted);font-size:12px;">Belum ada transaksi.</div>`;
+    } else {
+      recentEl.innerHTML = recent.map(tx => `
+        <div class="tx-item">
+          <div>
+            <div style="font-weight:700;font-size:13px;">${tx.targetName}</div>
+            <div style="font-size:11px;color:var(--muted);">${tx.note || (tx.type === "in" ? "Setoran tabungan" : "Penarikan dana")}</div>
+          </div>
+          <div style="font-weight:800;font-size:13px;color:${tx.type === "in" ? "var(--green)" : "var(--red)"};">
+            ${tx.type === "in" ? "+" : "−"}${fmtMasked(tx.amount)}
+          </div>
+        </div>
+      `).join("");
+    }
+  }
+
+  function renderTargets() {
+    const totalSaved = state.targets.reduce((acc, t) => acc + (Number(t.saved) || 0), 0);
+    const totalGoal = state.targets.reduce((acc, t) => acc + (Number(t.goal) || 0), 0);
+    document.getElementById("targetTotalSaved").textContent = fmtRp(totalSaved);
+    document.getElementById("targetTotalGoal").textContent = `Dari total target ${fmtRp(totalGoal)}`;
+
+    const listEl = document.getElementById("targetListContainer");
+    if (state.targets.length === 0) {
+      listEl.innerHTML = `<div class="card" style="text-align:center;color:var(--muted);">Belum ada target tabungan. Ketuk "+ Buat Target Baru".</div>`;
+      return;
+    }
+
+    listEl.innerHTML = state.targets.map(t => {
+      const pct = t.goal > 0 ? Math.min(100, (t.saved / t.goal) * 100) : 0;
+      const sisa = Math.max(0, t.goal - t.saved);
+      return `
+        <div class="card">
+          <div class="row-between">
+            <div style="font-size:16px;font-weight:800;">${t.emoji} ${t.name}</div>
+            <span class="badge ${pct >= 100 ? "badge-green" : "badge-blue"}">${pct.toFixed(1)}%</span>
+          </div>
+          <div class="prog-track"><div class="prog-fill" style="width:${pct}%"></div></div>
+          <div class="row-between" style="font-size:12px;margin-top:4px;">
+            <div>
+              <div style="color:var(--muted);font-size:10px;">TERKUMPUL</div>
+              <div style="font-weight:800;font-size:14px;">${fmtRp(t.saved)}</div>
+            </div>
+            <div style="text-align:right;">
+              <div style="color:var(--muted);font-size:10px;">TARGET (${sisa > 0 ? "Kurang " + fmtRp(sisa) : "Tercapai!"})</div>
+              <div style="font-weight:800;font-size:14px;color:var(--blue);">${fmtRp(t.goal)}</div>
+            </div>
+          </div>
+          <div class="mini-actions">
+            <button class="mini-btn mini-green" onclick="openTxModal('in', '${t.id}')">+ Nabung</button>
+            <button class="mini-btn mini-red" onclick="openTxModal('out', '${t.id}')">− Tarik</button>
+            <button class="mini-btn mini-blue" onclick="openTargetModal('${t.id}')">✎ Ubah Target</button>
+            <button class="mini-btn mini-gray" onclick="deleteTarget('${t.id}')">🗑</button>
+          </div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  function renderDividenFF() {
+    const pm = computePortfolioMetrics();
+    document.getElementById("ffMonthlyGoalDisp").textContent = fmtRp(state.ffMonthlyTarget);
+    document.getElementById("ffProgBar").style.width = Math.min(100, pm.progressPct) + "%";
+    document.getElementById("ffCurDivDisp").textContent = `Dividen Saat Ini: ${fmtRp(pm.divMonth)} / bln`;
+    document.getElementById("ffPctDisp").textContent = pm.progressPct.toFixed(2) + "%";
+    document.getElementById("ffTotalEqDisp").textContent = fmtRp(pm.totalEquity);
+
+    const sign = pm.pnlRp >= 0 ? "+" : "";
+    const pnlEl = document.getElementById("ffTotalPnlDisp");
+    pnlEl.textContent = `${sign}${fmtRp(pm.pnlRp)} (${sign}${pm.pnlPct.toFixed(2)}%)`;
+    pnlEl.style.color = pm.pnlRp >= 0 ? "#86EFAC" : "#FCA5A5";
+
+    // Render Siklus Rotasi Belanja
+    const cycEl = document.getElementById("cycleListContainer");
+    if (state.cycles.length === 0) {
+      cycEl.innerHTML = `<div class="card" style="text-align:center;color:var(--muted);font-size:12px;">Belum ada siklus rotasi. Klik "+ Tambah Siklus".</div>`;
+    } else {
+      cycEl.innerHTML = state.cycles.map(c => {
+        let totalCost = 0;
+        const itemTags = c.items.map(it => {
+          const st = state.stocks.find(s => s.code === it.code);
+          const pr = st ? st.curPrice : (IDX_DIRECTORY[it.code]?.price || 0);
+          const sub = it.lot * 100 * pr;
+          totalCost += sub;
+          return `${it.lot} lot ${it.code}`;
+        }).join(" • ");
+
+        return `
+          <div class="card">
+            <div class="row-between">
+              <div style="font-weight:800;font-size:14px;">${c.name}</div>
+              <span class="badge ${c.done ? "badge-green" : "badge-amber"}">${c.done ? "Sudah Beli" : fmtRp(totalCost)}</span>
+            </div>
+            <div style="font-size:12px;color:var(--muted);margin-top:5px;">${itemTags || "Belum ada saham"}</div>
+            <div class="mini-actions">
+              <button class="mini-btn mini-green" onclick="executeCycle('${c.id}')">✓ Eksekusi Beli</button>
+              <button class="mini-btn mini-blue" onclick="openCycleModal('${c.id}')">✎ Edit</button>
+              <button class="mini-btn mini-red" onclick="deleteCycle('${c.id}')">Hapus</button>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    // Render Portofolio Saham
+    const stEl = document.getElementById("stockListContainer");
+    if (state.stocks.length === 0) {
+      stEl.innerHTML = `<div class="card" style="text-align:center;color:var(--muted);font-size:12px;">Portofolio kosong. Klik "+ Tambah Saham".</div>`;
+    } else {
+      stEl.innerHTML = state.stocks.map((s, idx) => {
+        const shares = s.lot * 100;
+        const cost = shares * s.avgPrice;
+        const eq = shares * s.curPrice;
+        const pnl = eq - cost;
+        const pnlPct = cost > 0 ? (pnl / cost) * 100 : 0;
+        const yld = s.curPrice > 0 ? (s.dps / s.curPrice) * 100 : 0;
+        const divMo = (shares * s.dps * (1 - state.taxRate)) / 12;
+        const pSign = pnl >= 0 ? "+" : "";
+
+        return `
+          <div class="card">
+            <div class="row-between">
+              <div>
+                <span style="font-weight:800;font-size:16px;">${s.code}</span>
+                <span class="badge badge-blue" style="margin-left:6px;">${s.lot.toLocaleString("id-ID")} Lot</span>
+                <div style="font-size:11px;color:var(--muted);margin-top:2px;">${s.name}</div>
+              </div>
+              <div style="text-align:right;">
+                <div style="font-weight:800;font-size:14px;">${fmtRp(eq)}</div>
+                <span class="badge ${pnl >= 0 ? "badge-green" : "badge-red"}" style="margin-top:3px;">
+                  ${pSign}${fmtRp(pnl)} (${pSign}${pnlPct.toFixed(2)}%)
+                </span>
+              </div>
+            </div>
+            <div class="stock-grid">
+              <div>
+                <div class="sg-lbl">Avg Buy Anda</div>
+                <div class="sg-val">${fmtRp(s.avgPrice)}</div>
+              </div>
+              <div>
+                <div class="sg-lbl">Harga IDX</div>
+                <div class="sg-val">${fmtRp(s.curPrice)}</div>
+              </div>
+              <div>
+                <div class="sg-lbl">Dividen (${yld.toFixed(1)}%)</div>
+                <div class="sg-val" style="color:var(--green);">${fmtRp(divMo)}/bln</div>
+              </div>
+            </div>
+            <div class="mini-actions">
+              <button class="mini-btn mini-blue" onclick="openStockModal(${idx})">✎ Edit Lot / Avg</button>
+              <button class="mini-btn mini-red" onclick="deleteStock(${idx})">Hapus</button>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+  }
+
+  function renderHistory() {
+    document.getElementById("storageModeText").textContent = isNativeCapacitor
+      ? "Capacitor Native iOS Preferences (Permanen & Kebal Cache)"
+      : "Web LocalStorage (Gunakan Capacitor iOS untuk penyimpanan native)";
+
+    const filterSel = document.getElementById("txFilterSelect");
+    const prevVal = filterSel.value;
+    filterSel.innerHTML = `<option value="ALL">Semua Kantong</option>` +
+      state.targets.map(t => `<option value="${t.id}">${t.emoji} ${t.name}</option>`).join("") +
+      `<option value="RDN_SAHAM">📈 Eksekusi Saham IDX</option>`;
+    if ([...filterSel.options].some(o => o.value === prevVal)) filterSel.value = prevVal;
+
+    const chosen = filterSel.value;
+    const filtered = state.transactions.filter(tx => chosen === "ALL" || tx.targetId === chosen);
+
+    const histEl = document.getElementById("historyListContainer");
+    if (filtered.length === 0) {
+      histEl.innerHTML = `<div style="text-align:center;color:var(--muted);font-size:12px;">Belum ada riwayat transaksi untuk filter ini.</div>`;
+      return;
+    }
+
+    histEl.innerHTML = filtered.map(tx => {
+      const dStr = new Date(tx.date).toLocaleDateString("id-ID", { day: "2-digit", month: "short", year: "numeric" });
+      return `
+        <div class="tx-item">
+          <div>
+            <div style="font-weight:700;font-size:13px;">${tx.targetName}</div>
+            <div style="font-size:11px;color:var(--muted);">${dStr} • ${tx.note || "-"}</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span style="font-weight:800;font-size:13px;color:${tx.type === "in" ? "var(--green)" : "var(--red)"};">
+              ${tx.type === "in" ? "+" : "−"}${fmtRp(tx.amount)}
+            </span>
+            <button class="mini-btn mini-gray" style="padding:4px 7px;" onclick="deleteTransaction('${tx.id}')">✕</button>
+          </div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  // Modal Handlers: Transaksi Nabung / Tarik
+  function openTxModal(type, preselectTargetId = null) {
+    if (state.targets.length === 0) {
+      alert("Buat minimal 1 kantong tabungan di Tab Target terlebih dahulu.");
+      switchTab("target");
+      return;
+    }
+    document.getElementById("txTypeInput").value = type;
+    document.getElementById("txModalTitle").textContent = type === "in" ? "+ Setor Tabungan" : "− Tarik Tabungan";
+    const sel = document.getElementById("txTargetSelect");
+    sel.innerHTML = state.targets.map(t => `<option value="${t.id}">${t.emoji} ${t.name} (Saldo: ${fmtRp(t.saved)})</option>`).join("");
+    if (preselectTargetId) sel.value = preselectTargetId;
+    document.getElementById("txAmountInput").value = "";
+    document.getElementById("txNoteInput").value = "";
+    document.getElementById("txModal").classList.add("open");
+  }
+
+  function submitTx() {
+    const type = document.getElementById("txTypeInput").value;
+    const targetId = document.getElementById("txTargetSelect").value;
+    const amount = Number(document.getElementById("txAmountInput").value);
+    const note = document.getElementById("txNoteInput").value.trim();
+
+    if (!amount || amount <= 0) {
+      alert("Masukkan nominal Rupiah yang valid.");
+      return;
+    }
+
+    const tgt = state.targets.find(t => t.id === targetId);
+    if (!tgt) return;
+
+    if (type === "out" && amount > tgt.saved) {
+      alert("Saldo kantong target tidak mencukupi untuk penarikan ini.");
+      return;
+    }
+
+    tgt.saved = type === "in" ? tgt.saved + amount : tgt.saved - amount;
+    state.transactions.unshift({
+      id: "tx-" + Date.now(),
+      date: new Date().toISOString(),
+      type,
+      targetId: tgt.id,
+      targetName: `${tgt.emoji} ${tgt.name}`,
+      amount,
+      note
+    });
+
+    saveStateToStorage();
+    closeModal("txModal");
+    renderAll();
+  }
+
+  function deleteTransaction(txId) {
+    const idx = state.transactions.findIndex(t => t.id === txId);
+    if (idx === -1) return;
+    const tx = state.transactions[idx];
+    const tgt = state.targets.find(t => t.id === tx.targetId);
+    if (tgt) {
+      tgt.saved = Math.max(0, tx.type === "in" ? tgt.saved - tx.amount : tgt.saved + tx.amount);
+    }
+    state.transactions.splice(idx, 1);
+    saveStateToStorage();
+    renderAll();
+  }
+
+  // Modal Handlers: Target
+  function openTargetModal(targetId = "") {
+    document.getElementById("editTargetId").value = targetId;
+    const savedGroup = document.getElementById("targetInitialSavedGroup");
+    if (targetId) {
+      const t = state.targets.find(x => x.id === targetId);
+      document.getElementById("targetModalTitle").textContent = "Ubah Kantong Target";
+      document.getElementById("targetEmojiInput").value = t.emoji;
+      document.getElementById("targetNameInput").value = t.name;
+      document.getElementById("targetGoalInput").value = t.goal;
+      savedGroup.style.display = "none";
+    } else {
+      document.getElementById("targetModalTitle").textContent = "Buat Kantong Target Baru";
+      document.getElementById("targetEmojiInput").value = "🎯";
+      document.getElementById("targetNameInput").value = "";
+      document.getElementById("targetGoalInput").value = "";
+      document.getElementById("targetSavedInput").value = 0;
+      savedGroup.style.display = "block";
+    }
+    document.getElementById("targetModal").classList.add("open");
+  }
+
+  function submitTarget() {
+    const id = document.getElementById("editTargetId").value;
+    const emoji = document.getElementById("targetEmojiInput").value.trim() || "🎯";
+    const name = document.getElementById("targetNameInput").value.trim();
+    const goal = Number(document.getElementById("targetGoalInput").value);
+    const initialSaved = Number(document.getElementById("targetSavedInput").value) || 0;
+
+    if (!name || !goal || goal <= 0) {
+      alert("Isi nama kantong dan nilai target dengan benar.");
+      return;
+    }
+
+    if (id) {
+      const t = state.targets.find(x => x.id === id);
+      if (t) {
+        t.emoji = emoji;
+        t.name = name;
+        t.goal = goal;
+      }
+    } else {
+      const newId = "tgt-" + Date.now();
+      state.targets.push({ id: newId, emoji, name, goal, saved: initialSaved });
+      if (initialSaved > 0) {
+        state.transactions.unshift({
+          id: "tx-" + Date.now(),
+          date: new Date().toISOString(),
+          type: "in",
+          targetId: newId,
+          targetName: `${emoji} ${name}`,
+          amount: initialSaved,
+          note: "Saldo awal target baru"
+        });
+      }
+    }
+
+    saveStateToStorage();
+    closeModal("targetModal");
+    renderAll();
+  }
+
+  function deleteTarget(id) {
+    if (!confirm("Hapus kantong target ini?")) return;
+    state.targets = state.targets.filter(t => t.id !== id);
+    saveStateToStorage();
+    renderAll();
+  }
+
+  // Modal Handlers: Stocks
+  function autoLookupStock(val) {
+    const code = val.toUpperCase().trim();
+    const info = IDX_DIRECTORY[code];
+    if (info) {
+      document.getElementById("stockNameInput").value = info.name;
+      if (!document.getElementById("stockCurInput").value) {
+        document.getElementById("stockCurInput").value = info.price;
+      }
+      if (!document.getElementById("stockAvgInput").value) {
+        document.getElementById("stockAvgInput").value = info.price;
+      }
+      if (!document.getElementById("stockDpsInput").value) {
+        document.getElementById("stockDpsInput").value = info.dps;
+      }
+    }
+  }
+
+  function openStockModal(idx = -1) {
+    document.getElementById("editStockIndex").value = idx;
+    if (idx >= 0) {
+      const s = state.stocks[idx];
+      document.getElementById("stockModalTitle").textContent = "Edit Saham " + s.code;
+      document.getElementById("stockCodeInput").value = s.code;
+      document.getElementById("stockNameInput").value = s.name;
+      document.getElementById("stockLotInput").value = s.lot;
+      document.getElementById("stockAvgInput").value = s.avgPrice;
+      document.getElementById("stockCurInput").value = s.curPrice;
+      document.getElementById("stockDpsInput").value = s.dps;
+    } else {
+      document.getElementById("stockModalTitle").textContent = "Tambah Saham IDX";
+      document.getElementById("stockCodeInput").value = "";
+      document.getElementById("stockNameInput").value = "";
+      document.getElementById("stockLotInput").value = 0;
+      document.getElementById("stockAvgInput").value = "";
+      document.getElementById("stockCurInput").value = "";
+      document.getElementById("stockDpsInput").value = "";
+    }
+    document.getElementById("stockModal").classList.add("open");
+  }
+
+  function submitStock() {
+    const idx = Number(document.getElementById("editStockIndex").value);
+    const code = document.getElementById("stockCodeInput").value.toUpperCase().trim();
+    const name = document.getElementById("stockNameInput").value.trim() || code + " Tbk";
+    const lot = Number(document.getElementById("stockLotInput").value) || 0;
+    const avgPrice = Number(document.getElementById("stockAvgInput").value) || 0;
+    const curPrice = Number(document.getElementById("stockCurInput").value) || avgPrice;
+    const dps = Number(document.getElementById("stockDpsInput").value) || 0;
+
+    if (!code || curPrice <= 0) {
+      alert("Masukkan kode saham dan harga yang valid.");
+      return;
+    }
+
+    const obj = { code, name, lot, avgPrice: avgPrice || curPrice, curPrice, dps };
+    if (idx >= 0) state.stocks[idx] = obj;
+    else state.stocks.push(obj);
+
+    saveStateToStorage();
+    closeModal("stockModal");
+    renderAll();
+  }
+
+  function deleteStock(idx) {
+    if (!confirm("Hapus emiten ini dari portofolio?")) return;
+    state.stocks.splice(idx, 1);
+    saveStateToStorage();
+    renderAll();
+  }
+
+  function editFFGoal() {
+    const val = prompt("Masukkan target dividen bersih per bulan (Rp):", state.ffMonthlyTarget);
+    const num = Number(val);
+    if (num && num > 0) {
+      state.ffMonthlyTarget = num;
+      saveStateToStorage();
+      switchTab("dividen");
+    }
+  }
+
+  // Modal Handlers: Siklus Rotasi Belanja
+  function addCycleItemRow(code = "DMAS", lot = 1) {
+    const container = document.getElementById("cycleItemsEditor");
+    const div = document.createElement("div");
+    div.className = "cycle-item-row";
+    div.innerHTML = `
+      <input type="text" class="form-input cyc-code" value="${code}" placeholder="Kode (MPMX)" style="text-transform:uppercase;padding:8px;" />
+      <input type="number" class="form-input cyc-lot" value="${lot}" placeholder="Lot" style="padding:8px;" />
+      <button type="button" class="mini-btn mini-red" onclick="this.parentElement.remove()">✕</button>
+    `;
+    container.appendChild(div);
+  }
+
+  function openCycleModal(cycleId = "") {
+    document.getElementById("editCycleId").value = cycleId;
+    const editor = document.getElementById("cycleItemsEditor");
+    editor.innerHTML = "";
+    if (cycleId) {
+      const c = state.cycles.find(x => x.id === cycleId);
+      document.getElementById("cycleModalTitle").textContent = "Edit Siklus Rotasi";
+      document.getElementById("cycleNameInput").value = c.name;
+      c.items.forEach(it => addCycleItemRow(it.code, it.lot));
+    } else {
+      document.getElementById("cycleModalTitle").textContent = "Tambah Siklus Rotasi Baru";
+      document.getElementById("cycleNameInput").value = "";
+      addCycleItemRow("MPMX", 3);
+      addCycleItemRow("DMAS", 10);
+    }
+    document.getElementById("cycleModal").classList.add("open");
+  }
+
+  function submitCycle() {
+    const id = document.getElementById("editCycleId").value;
+    const name = document.getElementById("cycleNameInput").value.trim();
+    if (!name) {
+      alert("Masukkan nama siklus rotasi.");
+      return;
+    }
+
+    const rows = document.querySelectorAll("#cycleItemsEditor .cycle-item-row");
+    const items = [];
+    rows.forEach(r => {
+      const c = r.querySelector(".cyc-code").value.toUpperCase().trim();
+      const l = Number(r.querySelector(".cyc-lot").value);
+      if (c && l > 0) items.push({ code: c, lot: l });
+    });
+
+    if (items.length === 0) {
+      alert("Tambahkan minimal 1 saham dan jumlah lot.");
+      return;
+    }
+
+    if (id) {
+      const cyc = state.cycles.find(x => x.id === id);
+      if (cyc) {
+        cyc.name = name;
+        cyc.items = items;
+      }
+    } else {
+      state.cycles.push({ id: "cyc-" + Date.now(), name, done: false, items });
+    }
+
+    saveStateToStorage();
+    closeModal("cycleModal");
+    renderAll();
+  }
+
+  function deleteCycle(id) {
+    if (!confirm("Hapus siklus rotasi ini?")) return;
+    state.cycles = state.cycles.filter(c => c.id !== id);
+    saveStateToStorage();
+    renderAll();
+  }
+
+  function executeCycle(id) {
+    const cyc = state.cycles.find(c => c.id === id);
+    if (!cyc) return;
+
+    let totalSpend = 0;
+    cyc.items.forEach(it => {
+      let st = state.stocks.find(s => s.code === it.code);
+      const ref = IDX_DIRECTORY[it.code];
+      if (!st) {
+        st = {
+          code: it.code,
+          name: ref ? ref.name : it.code + " Tbk",
+          lot: 0,
+          avgPrice: ref ? ref.price : 100,
+          curPrice: ref ? ref.price : 100,
+          dps: ref ? ref.dps : 0
+        };
+        state.stocks.push(st);
+      }
+      const oldShares = st.lot * 100;
+      const addShares = it.lot * 100;
+      const spend = addShares * st.curPrice;
+      const newShares = oldShares + addShares;
+      st.avgPrice = newShares > 0 ? ((oldShares * st.avgPrice) + spend) / newShares : st.curPrice;
+      st.lot += it.lot;
+      totalSpend += spend;
+    });
+
+    cyc.done = true;
+    state.transactions.unshift({
+      id: "tx-" + Date.now(),
+      date: new Date().toISOString(),
+      type: "out",
+      targetId: "RDN_SAHAM",
+      targetName: "📈 Beli Saham (" + cyc.name + ")",
+      amount: totalSpend,
+      note: cyc.items.map(i => `${i.lot} lot ${i.code}`).join(", ")
+    });
+
+    saveStateToStorage();
+    renderAll();
+    alert(`Berhasil eksekusi pembelian senilai ${fmtRp(totalSpend)}! Lot dan harga rata-rata (Avg Buy) telah diperbarui.`);
+  }
+
+  function closeModal(id) {
+    document.getElementById(id).classList.remove("open");
+  }
+
+  // Export & Backup
+  function exportCSV() {
+    const headers = ["Tanggal", "Tipe", "Kantong", "Nominal", "Catatan"];
+    const rows = state.transactions.map(t => [
+      new Date(t.date).toISOString().split("T")[0],
+      t.type === "in" ? "Masuk" : "Keluar",
+      `"${t.targetName.replace(/"/g, '""')}"`,
+      t.amount,
+      `"${(t.note || "").replace(/"/g, '""')}"`
+    ]);
+    const csv = [headers.join(","), ...rows.map(r => r.join(","))].join("\n");
+    downloadFile(csv, "Celenganku_DevideFF_Riwayat.csv", "text/csv");
+  }
+
+  function backupJSON() {
+    downloadFile(JSON.stringify(state, null, 2), "Backup_Celenganku_DevideFF.json", "application/json");
+  }
+
+  function triggerRestore() {
+    document.getElementById("restoreFileInput").click();
+  }
+
+  function handleRestoreFile(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      try {
+        const parsed = JSON.parse(ev.target.result);
+        state = { ...JSON.parse(JSON.stringify(DEFAULT_STATE)), ...parsed };
+        saveStateToStorage();
+        renderAll();
+        alert("Data backup berhasil dipulihkan!");
+      } catch (err) {
+        alert("Format file JSON tidak valid.");
+      }
+    };
+    reader.readAsText(file);
+  }
+
+  function resetDefaultData() {
+    if (!confirm("Kembalikan seluruh data ke posisi awal (120 lot CNMA)?")) return;
+    state = JSON.parse(JSON.stringify(DEFAULT_STATE));
+    saveStateToStorage();
+    renderAll();
+  }
+
+  function downloadFile(content, filename, mime) {
+    const blob = new Blob([content], { type: mime });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  // Boot App
+  (async function initApp() {
+    await loadStateFromStorage();
+    switchTab("home");
+  })();
+</script>
+</body>
+</html>
