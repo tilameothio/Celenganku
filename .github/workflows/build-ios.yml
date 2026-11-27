@@ -13,6 +13,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Prepare web assets folder
+        run: |
+          mkdir -p www
+          if [ ! -f "www/index.html" ] && [ -f "index.html" ]; then
+            cp index.html www/index.html
+          fi
+          ls -la www
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -31,21 +39,33 @@ jobs:
       - name: Build unsigned iOS archive
         run: |
           cd ios/App
-          xcodebuild -project App.xcodeproj \
-            -scheme App \
-            -configuration Release \
-            -sdk iphoneos \
-            -archivePath $RUNNER_TEMP/App.xcarchive \
-            CODE_SIGNING_ALLOWED=NO \
-            CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGN_IDENTITY="" \
-            archive
+          if [ -d "App.xcworkspace" ]; then
+            xcodebuild -workspace App.xcworkspace \
+              -scheme App \
+              -configuration Release \
+              -sdk iphoneos \
+              -archivePath "$RUNNER_TEMP/App.xcarchive" \
+              CODE_SIGN_IDENTITY="" \
+              CODE_SIGNING_REQUIRED=NO \
+              CODE_SIGNING_ALLOWED=NO \
+              archive
+          else
+            xcodebuild -project App.xcodeproj \
+              -scheme App \
+              -configuration Release \
+              -sdk iphoneos \
+              -archivePath "$RUNNER_TEMP/App.xcarchive" \
+              CODE_SIGN_IDENTITY="" \
+              CODE_SIGNING_REQUIRED=NO \
+              CODE_SIGNING_ALLOWED=NO \
+              archive
+          fi
 
       - name: Package unsigned IPA
         run: |
-          mkdir -p $RUNNER_TEMP/Payload
-          cp -r $RUNNER_TEMP/App.xcarchive/Products/Applications/App.app $RUNNER_TEMP/Payload/
-          cd $RUNNER_TEMP
+          mkdir -p "$RUNNER_TEMP/Payload"
+          cp -r "$RUNNER_TEMP/App.xcarchive/Products/Applications/App.app" "$RUNNER_TEMP/Payload/"
+          cd "$RUNNER_TEMP"
           zip -r Celenganku-DevideFF-unsigned.ipa Payload
 
       - name: Upload IPA Artifact
